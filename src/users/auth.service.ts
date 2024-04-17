@@ -7,11 +7,11 @@ import { promisify } from 'util';
 const scrypt = promisify(_scrypt);
 @Injectable()
 export class AuthService {
-  constructor(private UsersService: UsersService) {}
+  constructor(private usersService: UsersService) {}
 
   async signup(email: string, password: string) {
     // Check if email is already used
-    const users = await this.UsersService.find('email');
+    const users = await this.usersService.find('email');
     if (users.length) {
       throw new BadRequestException('Email is used');
     }
@@ -28,12 +28,14 @@ export class AuthService {
 
     // Joined the hashed result and the salt together
 
-    const result = salt + '.' + hash.toString('hex');
+    const passwordHash = salt + '.' + hash.toString('hex');
 
     // create a new user and save it
+    const user = await this.usersService.create(email, passwordHash);
 
     // return the user
+    return user;
   }
 
-  signIn() {}
+  signin() {}
 }
