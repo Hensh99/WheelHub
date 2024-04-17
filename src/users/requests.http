@@ -1,11 +1,21 @@
 ### CREATE A NEW USER
-POST http://localhost:3000/auth/signup
+POST http://localhost:3000/auth/signUp
 Content-Type: application/json
 
 {
-    "email": "m.amir@damen.com",
-    "password": "lapescasssss"
+    "email": "m.rffffff@damen.com",
+    "password": "sdasdsd234"
 }
+
+### SignIn
+POST http://localhost:3000/auth/signIn
+Content-Type: application/json
+
+{
+    "email": "m.rffffff@damen.com",
+    "password": "sdasdsd234"
+}
+
 
 ### FIND A SPECIFIC USER BY ID
 GET http://localhost:3000/auth/2
@@ -21,6 +31,6 @@ PATCH http://localhost:3000/auth/2
 Content-Type: application/json
 
 {
-    "email": "m.hany@damen.com",
-    "password": "assssss"
+    "email": "m.rff@damen.com",
+    "password": "ddddd324234dzf"
 }

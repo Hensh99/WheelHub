@@ -26,9 +26,14 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
-  @Post('/signup')
+  @Post('/signUp')
   createUser(@Body() body: CreateUserDto) {
-    return this.authService.signup(body.email, body.password);
+    return this.authService.signUp(body.email, body.password);
+  }
+
+  @Post('/signIn')
+  signIn(@Body() body: CreateUserDto) {
+    return this.authService.signIn(body.email, body.password);
   }
   // in NestJS, route parameters are received as strings by default, regardless of whether they represent numeric values or not.
   @Get('/:id')
