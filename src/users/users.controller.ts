@@ -19,6 +19,10 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 
+interface Session {
+  userId: number;
+  // Other properties of session if any
+}
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
@@ -26,6 +30,16 @@ export class UsersController {
     private usersService: UsersService,
     private authService: AuthService,
   ) {}
+
+  @Get('/whoami')
+  whoAmI(@Session() session: any) {
+    return this.usersService.findOne(session.userId);
+  }
+
+  @Post('/signOut')
+  signOut(@Session() session: any) {
+    session.userId = null;
+  }
 
   @Post('/signUp')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
