@@ -30,9 +30,9 @@ describe('AuthService', () => {
   });
 
   it('creates a new user with a salted and hashed password', async () => {
-    const user = await service.signUp('asdf@asdf.com', 'asdf');
+    const user = await service.signUp('', '');
 
-    expect(user.password).not.toEqual('asdf');
+    expect(user.password).not.toEqual('');
     const [salt, hash] = user.password.split('.');
     expect(salt).toBeDefined();
     expect(hash).toBeDefined();
@@ -41,8 +41,24 @@ describe('AuthService', () => {
   it('throws an error if user signs up with email that is in use', async () => {
     fakeUsersService.find = () =>
       Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
-    await expect(service.signUp('asdf@asdf.com', 'asdf')).rejects.toThrow(
+    await expect(service.signUp('', '')).rejects.toThrow(
       BadRequestException,
     );
+  });
+
+  it('throws if signIn is called with an unused email', async () => {
+    await expect(
+      service.signIn('', ''),
+    ).rejects.toThrow(NotFoundException);
+  });
+
+  it('throws if an invalid password is provided', async () => {
+    fakeUsersService.find = () =>
+      Promise.resolve([
+        { email: '', password: '' } as User,
+      ]);
+    await expect(
+      service.signIn('', ''),
+    ).rejects.toThrow(BadRequestException);
   });
 });
